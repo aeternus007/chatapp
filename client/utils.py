@@ -16,4 +16,5 @@ def receive(server):
 
 def send_password(server, password):
     password_hash = hashlib.sha256(password.encode("utf-8")).digest()
-    send(server, password_hash)
+    server.send(str(len(password_hash)).encode("utf-8"))
+    server.send(password_hash)

@@ -73,6 +73,12 @@ def receive(client):
     return message
 
 
+def receive_password(client):
+    message_length = int(client.connection.recv(1024).decode("utf-8"))
+    message = client.recv(message_length)
+    return message
+
+
 def handle_client(client):
     clients.append(client)
     print(f"{client} connected")
@@ -90,7 +96,7 @@ def main():
     while True:
         client, address = server.accept()
         received = receive_first(client)
-        client = User(client, address, receive_first(client), receive_first(client))
+        client = User(client, address, receive_first(client), receive_password(client))
 
         if received == "REGISTER":
             client.register()
